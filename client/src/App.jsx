@@ -4,6 +4,9 @@ import { ToastContainer } from 'react-toastify';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import AppLayout from './components/Layout/AppLayout';
 
+// Landing page (not lazy — fast load)
+import Landing from './pages/Landing';
+
 // Auth pages
 const Login = lazy(() => import('./pages/auth/Login'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
@@ -88,10 +91,8 @@ const AppRoutes = () => {
           <Route path="buy-credits" element={<BuyCredits />} />
         </Route>
 
-        {/* Default redirect */}
-        <Route path="/" element={
-          <Navigate to={user?.role === 'super_admin' ? '/admin' : '/dashboard'} replace />
-        } />
+        {/* Landing page */}
+        <Route path="/" element={user ? <Navigate to={user.role === 'super_admin' ? '/admin' : '/dashboard'} replace /> : <Landing />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
